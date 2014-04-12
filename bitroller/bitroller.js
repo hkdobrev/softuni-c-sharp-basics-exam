@@ -3,28 +3,43 @@
 function Solve (args) {
     var
         LIMIT = 19,
-        leftMostBit = 1 << (LIMIT - 1),
-        n = args.shift(),
-        f = args.shift(),
-        r = args.shift(),
-        fixed = n >> f & 1,
-        i = 0,
+        leftMostBitPosition = LIMIT - 1,
+        leftMostBit = 1 << leftMostBitPosition,
+        n = parseInt(args.shift(), 10),
+        fixedPosition = parseInt(args.shift(), 10),
+        r = parseInt(args.shift(), 10),
+        // Get the value on the fixed position
+        fixed = n >> fixedPosition & 1,
         right, previous;
 
-    for ( ; i < r; i++ ) {
-        right = n & 1;
-        previous = (n >> (f + 1)) & 1;
+    while ( r-- ) {
+        // Get the most right bit
+        if (fixedPosition == 0) {
+            right = (n & (1 << 1)) >> 1;
+        } else {
+            right = n & 1;
+        }
+
+        // Move everything to the right
         n >>= 1;
+
+        // Set the most left bit if the previous most right was set
         if ( right ) {
             n = n | leftMostBit;
         }
-        previous = n >> f & 1;
+
+        // Get the bit which is in the fixed position
+        previous = n >> fixedPosition & 1;
+
+        // Set the next bit with its value (jump the fixed position)
         if ( previous ) {
-            n |= (previous << (f - 1));
+            n |= (previous << (fixedPosition - 1));
         } else {
-            n &= ~(1 << (f - 1));
+            n &= ~(1 << (fixedPosition - 1));
         }
-        n |= (fixed << f);
+
+        // Set the fixed position with the fixed value
+        n |= (fixed << fixedPosition);
     }
 
     return n;
