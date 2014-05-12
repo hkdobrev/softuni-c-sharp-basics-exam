@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// Start of solution for SoftUni Judge System
+
 function Solve (args) {
     var
         LIMIT = 19,
@@ -44,6 +46,11 @@ function Solve (args) {
 
     return n;
 }
+
+// End of solution for SoftUni Judge System
+
+// Input from command line with node.js
+// Not neded when running the program with the automated judge system
 
 var readline = require('readline'),
     rl = readline.createInterface({
